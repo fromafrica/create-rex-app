@@ -1,6 +1,6 @@
 {
   "name": "create-rex-app",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "a helpful tool to setup a rex project",
   "type": "module",
   "bin": "main.js",
