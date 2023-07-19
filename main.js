@@ -14,6 +14,9 @@ await core.welcome();
 const config = {};
 
 // defaults
+config.pkgmgr = core.detect(process.env.npm_execpath);
+config.name = 'my-rex-app';
+config.location = './';
 config.app = 'Single Page App';
 config.typesafety = 'No';
 config.style = 'No';
@@ -21,6 +24,16 @@ config.git = 'Yes';
 config.deps = 'Yes';
 
 // run cli
+await questions.name().then((answer) => {
+    config.name = answer.result;
+});
+await core.runner();
+
+await questions.location(config.name).then((answer) => {
+    config.location = answer.result;
+});
+await core.runner();
+
 await questions.intro().then((answer) => {
     config.app = answer.result;
 });
@@ -47,17 +60,19 @@ await questions.installDeps().then((answer) => {
 await core.runner();
 
 // run handlers
-console.log('Generating package.json');
-await handlers.json();
+console.log('\n Generating package.json');
+await handlers.json(config).then((err) => {
+    if (err == '1') {
+        process.exit(1);
+    }
+});
 
 if (config.git === 'Yes') {
-    await core.sleep(500);
     console.log('Setting up git repo');
     await handlers.git();
 }
 
 if (config.deps === 'Yes') {
-    await core.sleep(500);
     console.log('Installing dependencies');
     await handlers.deps();
 }
