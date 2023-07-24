@@ -39,16 +39,6 @@ await questions.intro().then((answer) => {
 });
 await core.runner();
 
-await questions.typeSafety().then((answer) => {
-    config.typesafety = answer.result;
-});
-await core.runner();
-
-await questions.styleSetup().then((answer) => {
-    config.style = answer.result;
-});
-await core.runner();
-
 await questions.gitSetup().then((answer) => {
     config.git = answer.result;
 });
