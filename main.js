@@ -57,12 +57,19 @@ await handlers.json(config).then((err) => {
     }
 });
 
+console.log('\n Fetching starter template to '+ config.location);
+await handlers.fetchTemplate(config.location).then((err) => {
+    if (err == '1') {
+        process.exit(1);
+    }
+});
+
 if (config.git === 'Yes') {
-    console.log('Setting up git repo');
+    console.log('\n Setting up git repo');
     await handlers.git();
 }
 
 if (config.deps === 'Yes') {
-    console.log('Installing dependencies');
+    console.log('\n Installing dependencies');
     await handlers.deps();
 }
